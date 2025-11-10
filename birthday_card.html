@@ -1,0 +1,203 @@
+<!-- birthday_card.html - 梦幻蓝紫版（气球+蛋糕+自动播放音乐） -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>梦幻生日祝福卡 💜🎂</title>
+  <style>
+    html,body{height:100%;margin:0;overflow-x:hidden;font-family:'Segoe UI',sans-serif;color:#fff}
+    body{
+      background:linear-gradient(180deg,#2e026d 0%,#6b21a8 40%,#7e22ce 100%);
+      background-attachment:fixed;
+      position:relative;
+    }
+
+    /* 漂浮气球动画 */
+    .balloon{
+      position:absolute;
+      bottom:-150px;
+      width:60px;height:80px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.9),rgba(180,150,255,0.8));
+      box-shadow:inset -4px -6px 10px rgba(0,0,0,0.2);
+      animation:float 12s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%{transform:translateY(0) rotate(0deg);opacity:1}
+      50%{transform:translateY(-800px) rotate(6deg);opacity:0.9}
+      100%{transform:translateY(-1600px) rotate(-6deg);opacity:0}
+    }
+
+    /* 多个气球不同位置和延迟 */
+    .b1{left:10%;animation-delay:0s;background-color:#f9a8d4}
+    .b2{left:30%;animation-delay:3s;background-color:#93c5fd}
+    .b3{left:50%;animation-delay:6s;background-color:#c4b5fd}
+    .b4{left:70%;animation-delay:1.5s;background-color:#fcd34d}
+    .b5{left:85%;animation-delay:4.5s;background-color:#a7f3d0}
+
+    header{text-align:center;padding:24px 12px;animation:fadein 2s ease forwards;}
+    @keyframes fadein{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+    h1{font-size:26px;margin:0;color:#f3e8ff;text-shadow:0 0 10px #a855f7}
+    p.small{font-size:13px;color:#ddd}
+
+    .container{max-width:1000px;margin:0 auto;z-index:2;position:relative;padding:12px}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media(min-width:800px){.grid{grid-template-columns:1fr 1fr}}
+
+    .card{background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);padding:16px;border-radius:16px;box-shadow:0 0 20px rgba(255,255,255,0.2)}
+    label{display:block;font-size:14px;margin-top:8px;color:#eee}
+    input[type=text],textarea,select{width:100%;padding:10px;border-radius:10px;border:none;margin-top:4px;font-size:14px}
+    textarea{resize:vertical}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+    .btn.primary{background:#9333ea;color:#fff}
+    .btn.ghost{background:transparent;border:1px solid #e9d5ff;color:#e9d5ff}
+
+    .preview-wrap{padding:12px;text-align:center}
+    .card-preview{max-width:540px;margin:0 auto;padding:28px;border-radius:16px;box-shadow:0 0 30px rgba(255,255,255,0.2)}
+    .classic{background:linear-gradient(135deg,#d8b4fe,#c084fc);color:#fff}
+    .minimal{background:rgba(255,255,255,0.2);color:#fff}
+    .retro{background:linear-gradient(135deg,#312e81,#7e22ce);color:#fff}
+
+    .name{font-size:28px;font-weight:700;margin-bottom:8px}
+    .msg{font-size:16px}
+
+    /* 蛋糕SVG */
+    .cake{margin-top:20px;display:inline-block;animation:fadein 3s ease forwards}
+    .flame{animation:flicker 1s infinite alternate}
+    @keyframes flicker{from{opacity:0.6;transform:scale(1)}to{opacity:1;transform:scale(1.1)}}
+
+    footer{text-align:center;color:#ddd;font-size:12px;margin-top:24px}
+
+  </style>
+</head>
+<body>
+  <!-- 漂浮气球 -->
+  <div class="balloon b1"></div>
+  <div class="balloon b2"></div>
+  <div class="balloon b3"></div>
+  <div class="balloon b4"></div>
+  <div class="balloon b5"></div>
+
+  <div class="container">
+    <header>
+      <h1>🎉 梦幻蓝紫生日祝福卡 💜</h1>
+      <p class="small">生成链接并分享给好友，一起庆祝生日！</p >
+    </header>
+
+    <main class="grid">
+      <section class="card">
+        <label>收件人名字</label>
+        <input id="inputName" type="text" placeholder="例如：小美">
+
+        <label>祝福语</label>
+        <textarea id="inputMsg" rows="5" placeholder="写下你的生日祝福..."></textarea>
+
+        <label>模板</label>
+        <select id="inputTpl">
+          <option value="classic">梦幻紫（默认）</option>
+          <option value="minimal">极简透明</option>
+          <option value="retro">夜色复古</option>
+        </select>
+
+        <div style="margin-top:12px">
+          <button id="btnPreview" class="btn primary">预览并生成链接</button>
+          <button id="btnReset" class="btn ghost">重置</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="preview-wrap">
+          <div id="previewBox" class="card-preview classic">
+            <div class="name" id="pvName">你的名字</div>
+            <div class="msg" id="pvMsg">在这里写下祝福，会实时显示...</div>
+            <!-- 蛋糕图案 -->
+            <div class="cake">
+              <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="25" y="60" width="70" height="30" rx="8" fill="#f9a8d4" stroke="#fff" stroke-width="2"/>
+                <rect x="35" y="45" width="50" height="15" rx="4" fill="#fde68a" stroke="#fff" stroke-width="2"/>
+                <rect x="55" y="30" width="10" height="15" fill="#f87171"/>
+                <circle class="flame" cx="60" cy="25" r="4" fill="#facc15"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <input id="shareLink" readonly value="" style="width:100%;padding:8px;border-radius:8px;border:none">
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+            <button id="btnCopy" class="btn primary">复制链接</button>
+            <button id="btnShare" class="btn ghost">原生分享</button>
+          </div>
+          <div id="copyNote" style="color:#a7f3d0;margin-top:8px;display:none;text-align:center">已复制到剪贴板 ✅</div>
+        </div>
+      </section>
+    </main>
+
+    <audio id="bgm" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4c3ff9c6d7.mp3?filename=happy-birthday-118.mp3" loop preload="auto"></audio>
+    <footer>🎂 保存为 <strong>birthday_card.html</strong> 并用浏览器打开即可使用。音乐自动播放。</footer>
+  </div>
+
+  <script>
+    function qs(id){return document.getElementById(id)}
+    const inputName=qs('inputName'),inputMsg=qs('inputMsg'),inputTpl=qs('inputTpl')
+    const pvName=qs('pvName'),pvMsg=qs('pvMsg'),previewBox=qs('previewBox')
+    const shareLink=qs('shareLink'),btnPreview=qs('btnPreview'),btnReset=qs('btnReset')
+    const btnCopy=qs('btnCopy'),btnShare=qs('btnShare'),copyNote=qs('copyNote')
+    const bgm=qs('bgm')
+
+    const params=new URLSearchParams(location.search)
+    const sharedName=params.get('name')||''
+    const sharedMsg=params.get('msg')||''
+    const sharedTpl=params.get('tpl')||'classic'
+
+    function applyShared(){
+      if(sharedName||sharedMsg){
+        pvName.textContent=sharedName||'朋友'
+        pvMsg.textContent=sharedMsg||''
+        previewBox.className='card-preview '+(sharedTpl||'classic')
+        bgm.play().catch(()=>{})
+      }
+    }
+    applyShared()
+
+    inputName.addEventListener('input',()=>{pvName.textContent=inputName.value||'你的名字';updateLink()})
+    inputMsg.addEventListener('input',()=>{pvMsg.textContent=inputMsg.value||'在这里写下祝福，会实时显示...';updateLink()})
+    inputTpl.addEventListener('change',()=>{previewBox.className='card-preview '+inputTpl.value;updateLink()})
+
+    function buildShareURL(){
+      const base=location.origin+location.pathname
+      const u=new URL(base)
+      if(inputName.value)u.searchParams.set('name',inputName.value)
+      if(inputMsg.value)u.searchParams.set('msg',inputMsg.value)
+      if(inputTpl.value)u.searchParams.set('tpl',inputTpl.value)
+      return u.toString()
+    }
+    function updateLink(){shareLink.value=buildShareURL()}
+
+    btnPreview.addEventListener('click',()=>{updateLink();bgm.currentTime=0;bgm.play().catch(()=>{})})
+    btnReset.addEventListener('click',()=>{inputName.value='';inputMsg.value='';inputTpl.value='classic';pvName.textContent='你的名字';pvMsg.textContent='在这里写下祝福，会实时显示...';previewBox.className='card-preview classic';shareLink.value='';copyNote.style.display='none';bgm.pause();bgm.currentTime=0})
+
+    btnCopy.addEventListener('click',async()=>{
+      const link=buildShareURL()
+      try{await navigator.clipboard.writeText(link);copyNote.style.display='block';setTimeout(()=>copyNote.style.display='none',1800)}catch(e){const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();copyNote.style.display='block';setTimeout(()=>copyNote.style.display='none',1800)}
+    })
+
+    btnShare.addEventListener('click',()=>{
+      const url=buildShareURL()
+      if(navigator.share){navigator.share({title:'生日祝福',text:inputMsg.value||'生日快乐',url}).catch(()=>{})}else{btnCopy.click()}
+    })
+
+    function fillInputs(){
+      if(sharedName)inputName.value=sharedName
+      if(sharedMsg)inputMsg.value=sharedMsg
+      if(sharedTpl)inputTpl.value=sharedTpl
+      pvName.textContent=inputName.value||pvName.textContent
+      pvMsg.textContent=inputMsg.value||pvMsg.textContent
+      previewBox.className='card-preview '+(inputTpl.value||'classic')
+      updateLink()
+    }
+    fillInputs()
+  </script>
+</body>
+</html>

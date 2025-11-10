@@ -1,0 +1,67 @@
+<!-- birthday_liu.html - 妈妈专属梦幻生日卡 💜🎂 -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>妈妈生日快乐 💜🎂</title>
+<style>
+html,body{height:100%;margin:0;overflow:hidden;font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;}
+body{
+  background:linear-gradient(180deg,#2e026d 0%,#6b21a8 40%,#7e22ce 100%);
+  background-attachment:fixed;
+}
+.balloon{position:absolute;bottom:-150px;width:60px;height:80px;border-radius:50%;
+  box-shadow:inset -4px -6px 10px rgba(0,0,0,0.2);animation:float 12s ease-in-out infinite;}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-800px)}100%{transform:translateY(-1600px);opacity:0}}
+.b1{left:10%;animation-delay:0s;background-color:#f9a8d4}
+.b2{left:30%;animation-delay:3s;background-color:#93c5fd}
+.b3{left:50%;animation-delay:6s;background-color:#c4b5fd}
+.b4{left:70%;animation-delay:1.5s;background-color:#fcd34d}
+.b5{left:85%;animation-delay:4.5s;background-color:#a7f3d0}
+.card{
+  background:linear-gradient(135deg,#d8b4fe,#c084fc);
+  color:#fff;max-width:540px;margin:100px auto 40px auto;padding:28px;
+  border-radius:16px;box-shadow:0 0 40px rgba(255,255,255,0.3);
+  animation:fadein 2.5s ease forwards;
+}
+@keyframes fadein{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.name{font-size:30px;font-weight:700;margin-bottom:10px;text-shadow:0 0 15px #fff;}
+.msg{font-size:18px;line-height:1.6;margin-bottom:20px;padding:0 12px;}
+.sign{font-size:16px;color:#e0e7ff;margin-top:20px;font-style:italic;text-shadow:0 0 10px rgba(255,255,255,0.4);}
+.cake{margin-top:10px;animation:fadein 3s ease forwards}
+.flame{animation:flicker 1s infinite alternate}
+@keyframes flicker{from{opacity:0.6;transform:scale(1)}to{opacity:1;transform:scale(1.1)}}
+footer{position:fixed;bottom:10px;width:100%;color:#ddd;font-size:13px;}
+</style>
+</head>
+<body>
+<div class="balloon b1"></div><div class="balloon b2"></div><div class="balloon b3"></div><div class="balloon b4"></div><div class="balloon b5"></div>
+
+<div class="card">
+  <div class="name">🎉 亲爱的妈妈 🎉</div>
+  <div class="msg">
+    祝你生日快乐天天开心，越来越美丽，<br>
+    健康长寿！福如东海，寿比南山<br>
+    （没词了😄）
+  </div>
+  <div class="cake">
+    <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="25" y="60" width="70" height="30" rx="8" fill="#f9a8d4" stroke="#fff" stroke-width="2"/>
+      <rect x="35" y="45" width="50" height="15" rx="4" fill="#fde68a" stroke="#fff" stroke-width="2"/>
+      <rect x="55" y="30" width="10" height="15" fill="#f87171"/>
+      <circle class="flame" cx="60" cy="25" r="4" fill="#facc15"/>
+    </svg>
+  </div>
+  <div class="sign">—— 来自你的好儿子 陈宇航 🎁</div>
+</div>
+
+<audio id="bgm" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4c3ff9c6d7.mp3?filename=happy-birthday-118.mp3" loop autoplay></audio>
+<footer>💜 Happy Birthday Liu Yue 💜</footer>
+
+<script>
+const bgm=document.getElementById('bgm')
+document.body.addEventListener('click',()=>bgm.play()) // 若浏览器阻止自动播放，可点击任意位置播放
+</script>
+</body>
+</html>

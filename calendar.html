@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>2025年精美日历</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+        color: #fff;
+        text-align: center;
+    }
+
+    h1 {
+        margin-top: 30px;
+        font-size: 32px;
+        letter-spacing: 2px;
+    }
+
+    .note {
+        font-size: 22px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #ffe9ff;
+    }
+
+    .calendar {
+        width: 90%;
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        box-shadow: 0 0 25px rgba(255,255,255,0.2);
+        backdrop-filter: blur(8px);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 35px;
+        color: #fff;
+        font-size: 16px;
+    }
+    th {
+        padding: 10px 0;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+    td {
+        padding: 10px 0;
+    }
+
+    .month-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 25px 0 10px;
+        color: #ffe;
+    }
+</style>
+</head>
+<body>
+
+<h1>2025 年日历</h1>
+<div class="note">妈妈，新的一年辛苦了 ❤️</div>
+
+<div class="calendar" id="calContainer"></div>
+
+<script>
+// --- 日历生成程序 (JS 还原 C++ 逻辑) ---
+let year = 2025;
+let startday = 3;  // 你可自行修改（1=Mon ... 7=Sun）
+
+let monthday = [0,31,28,31,30,31,30,31,31,30,31,30,31];
+let monthname = [" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// 闰年
+if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) monthday[2] = 29;
+
+let container = document.getElementById("calContainer");
+
+for (let month = 1; month <= 12; month++) {
+    let div = document.createElement("div");
+
+    // 月份标题
+    div.innerHTML += `<div class="month-title">${year} — ${monthname[month]}</div>`;
+
+    let table = `<table><tr>
+        <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+    </tr><tr>`;
+
+    for (let i = 1; i < startday; i++) table += "<td></td>";
+
+    let column = startday;
+
+    for (let day = 1; day <= monthday[month]; day++) {
+        table += `<td>${day}</td>`;
+        if (column % 7 === 0) table += `</tr><tr>`;
+        column++;
+    }
+
+    table += `</tr></table>`;
+    div.innerHTML += table;
+    container.appendChild(div);
+
+    startday = column % 7;
+    if (startday === 0) startday = 7;
+}
+</script>
+
+</body>
+</html>
